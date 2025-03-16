@@ -12,36 +12,42 @@ void error(string word1, string word2, string msg) {
     cerr << "Error: " << msg << " (" << word1 << " -> " << word2 << ")" << endl;
 }
 
-bool is_adjacent(const string& word1, const string& word2) {
+ bool is_adjacent(const string& word1, const string& word2) {
     int len1 = word1.size();
     int len2 = word2.size();
     
-    if (abs(len1 - len2) > 1) 
+    if (abs(len1 - len2) > 1) {
         return false; 
+    }
     
     int diff = 0, i = 0, j = 0;
     
     while (i < len1 && j < len2) {
         if (word1[i] != word2[j]) {
             diff++;
-            if (diff > 1) 
+            if (diff > 1) {
                 return false;
-            if (len1 > len2) 
-                i++;
-            else if (len1 < len2) 
-                j++;
-            else {
+            }
+            if (len1 > len2) {
+                i++; /
+            } 
+            else if (len1 < len2) {
+                j++; 
+            } 
+            else { 
                 i++; 
                 j++; 
-        } 
-        else 
+            }
+        }  
+        else {
             i++; 
             j++;
+        }
     }
-    
+
     return true;
 }
-}
+
 
 vector<string> generate_word_ladder(const string& begin_word, const string& end_word, const set<string>& word_list) {
     if (begin_word == end_word) {
