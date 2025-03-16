@@ -8,7 +8,7 @@
 
 using namespace std;
 
-
+constexpr int INF = numeric_limits<int>::max();
 
 vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& previous) {
     int n = G.numVertices;
@@ -41,6 +41,10 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
 }
 
 vector<int> extract_shortest_path(const vector<int>& distances, const vector<int>& previous, int destination) {
+    if (distances[destination] == INF) {
+        return {};  
+    }
+
     vector<int> path;
     for (int at = destination; at != -1; at = previous[at]) {
         path.push_back(at);
@@ -48,6 +52,7 @@ vector<int> extract_shortest_path(const vector<int>& distances, const vector<int
     reverse(path.begin(), path.end());
     return path;
 }
+
 
 void print_path(const vector<int>& path, int total) {
     if (path.empty()) {
@@ -58,5 +63,5 @@ void print_path(const vector<int>& path, int total) {
         cout << path[i];
         if (i != path.size() - 1) cout << " "; 
     }
-    cout << " \nTotal cost is " << total << endl;
+    cout << " \nTotal cost is " << total << endl; 
 }
