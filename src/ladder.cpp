@@ -90,3 +90,29 @@ void load_words(set<string>& word_list, const string& file_name) {
     }
     file.close();
 }
+
+
+void print_word_ladder(const vector<string>& ladder) {
+    if (ladder.empty()) {
+        cout << "No word ladder found." << endl;
+        return;
+    }
+    for (size_t i = 0; i < ladder.size(); ++i) {
+        cout << ladder[i];
+        if (i != ladder.size() - 1) cout << " -> ";
+    }
+    cout << endl;
+}
+
+void verify_word_ladder() {
+    set<string> word_list;
+    load_words(word_list, "words.txt");
+
+    cout << "Testing word ladders..." << endl;
+    print_word_ladder(generate_word_ladder("cat", "dog", word_list));
+    print_word_ladder(generate_word_ladder("marty", "curls", word_list));
+    print_word_ladder(generate_word_ladder("code", "data", word_list));
+    print_word_ladder(generate_word_ladder("work", "play", word_list));
+    print_word_ladder(generate_word_ladder("sleep", "awake", word_list));
+    print_word_ladder(generate_word_ladder("car", "cheat", word_list));
+}
