@@ -29,7 +29,7 @@ void error(string word1, string word2, string msg) {
                 return false;
             }
             if (len1 > len2) {
-                i++; /
+                i++; 
             } 
             else if (len1 < len2) {
                 j++; 
@@ -112,7 +112,7 @@ void print_word_ladder(const vector<string>& ladder) {
 
 void verify_word_ladder() {
     set<string> word_list;
-    load_words(word_list, "words.txt");
+    load_words(word_list, "src/words.txt");
 
     cout << "Testing word ladders..." << endl;
     print_word_ladder(generate_word_ladder("cat", "dog", word_list));
