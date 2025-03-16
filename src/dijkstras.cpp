@@ -8,31 +8,42 @@
 
 using namespace std;
 
+struct Node {
+    int vertex;
+    int weight;
+    Node(int v, int w) : vertex(v), weight(w) {}
+
+    bool operator>(const Node& other) const {
+        return weight > other.weight;
+    }
+};
 
 vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& previous) {
     int n = G.numVertices;
     vector<int> distances(n, INF);
     previous.assign(n, -1);
-    
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-    pq.push({0, source});
+    vector<bool> visited(n, false);  
+
+    priority_queue<Node, vector<Node>, greater<Node>> pq;
+    pq.push(Node(source, 0));
     distances[source] = 0;
-    
+
     while (!pq.empty()) {
-        int dist = pq.top().first;
-        int u = pq.top().second;
+        Node current = pq.top();
         pq.pop();
-        
-        if (dist > distances[u]) continue;
-        
+        int u = current.vertex;
+
+        if (visited[u]) continue;
+        visited[u] = true;
+
         for (const Edge& edge : G[u]) {
             int v = edge.dst;
             int weight = edge.weight;
-            
-            if (distances[u] + weight < distances[v]) {
+
+            if (!visited[v] && distances[u] + weight < distances[v]) {
                 distances[v] = distances[u] + weight;
                 previous[v] = u;
-                pq.push({distances[v], v});
+                pq.push(Node(v, distances[v]));
             }
         }
     }
@@ -52,7 +63,6 @@ vector<int> extract_shortest_path(const vector<int>& distances, const vector<int
     return path;
 }
 
-
 void print_path(const vector<int>& path, int total) {
     if (path.empty()) {
         cout << "No path found" << endl;
@@ -60,7 +70,7 @@ void print_path(const vector<int>& path, int total) {
     }
     for (size_t i = 0; i < path.size(); ++i) {
         cout << path[i];
-        if (i != path.size() - 1) cout << " "; 
+        if (i != path.size() - 1) cout << " ";
     }
-    cout << " \nTotal cost is " << total << endl; 
+    cout << "\nTotal cost is " << total << endl;
 }
