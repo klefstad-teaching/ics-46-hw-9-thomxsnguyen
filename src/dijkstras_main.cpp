@@ -1,4 +1,13 @@
 #include "dijkstras.h"
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <limits>
+#include <algorithm>
+
+using namespace std;
 
 int main() {
     string filename;
@@ -11,6 +20,23 @@ int main() {
     } catch (const exception& e) {
         cerr << e.what() << endl;
         return 1;
+    }
+
+    for (int u = 0; u < G.numVertices; ++u) {
+        int originalSize = G[u].size();
+        for (int i = 0; i < originalSize; ++i) {
+            Edge e = G[u][i];
+            bool found = false;
+            for (const Edge& rev : G[e.dst]) {
+                if (rev.dst == u && rev.weight == e.weight) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                G[e.dst].push_back(Edge(e.dst, u, e.weight));
+            }
+        }
     }
 
     vector<int> previous;
