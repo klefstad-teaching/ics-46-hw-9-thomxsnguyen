@@ -12,6 +12,39 @@ void error(string word1, string word2, string msg) {
     cerr << "Error: " << msg << " (" << word1 << " -> " << word2 << ")" << endl;
 }
 
+bool edit_distance_within(const std::string& str1, const std::string& str2, int d) {
+    int len1 = str1.size();
+    int len2 = str2.size();
+
+    if (abs(len1 - len2) > d) {
+        return false; 
+    }
+
+    int i = 0, j = 0, diff = 0;
+    while (i < len1 && j < len2) {
+        if (str1[i] != str2[j]) {
+            diff++;
+            if (diff > d) {
+                return false;
+            }
+            if (len1 > len2) {
+                i++;   
+            }
+            else if (len1 < len2) {
+                j++;  
+            }
+            else {
+                i++; j++; 
+            }
+        }
+        else {
+            i++; j++;
+        }
+    }
+    return (diff + (len1 - i) + (len2 - j) <= d); 
+}
+
+
  bool is_adjacent(const string& word1, const string& word2) {
     int len1 = word1.size();
     int len2 = word2.size();
