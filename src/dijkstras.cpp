@@ -37,11 +37,11 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
         if (visited[u]) continue;
         visited[u] = true;
 
-        for (const Edge& edge : G[u]) {
+        for (const Edge& edge : G.adjacencyList[u]) {  
             int v = edge.dst;
             int weight = edge.weight;
 
-            if (distances[u] + weight < distances[v]) {
+            if (!visited[v] && distances[u] != INF && distances[u] + weight < distances[v]) {
                 distances[v] = distances[u] + weight;
                 previous[v] = u;
                 pq.push(Node(v, distances[v]));
@@ -50,6 +50,7 @@ vector<int> dijkstra_shortest_path(const Graph& G, int source, vector<int>& prev
     }
     return distances;
 }
+
 
 vector<int> extract_shortest_path(const vector<int>& distances, const vector<int>& previous, int destination) {
     if (distances[destination] == INF) {
